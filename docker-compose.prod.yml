@@ -1,4 +1,7 @@
-# Production deployment
+# Production deployment (Hostinger)
+# API exposed on port 8100, frontend on port 8101
+# Can be fronted by existing nginx later for SSL/domain routing
+
 services:
   db:
     image: postgres:16-alpine
@@ -17,6 +20,8 @@ services:
       context: ./api-server
       dockerfile: Dockerfile
     env_file: .env.prod
+    ports:
+      - "8100:8000"
     volumes:
       - api_static:/app/staticfiles
       - api_media:/app/media
@@ -27,6 +32,7 @@ services:
     command: >
       sh -c "python manage.py migrate --noinput &&
              python manage.py collectstatic --noinput &&
+             python manage.py seed_superuser &&
              gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120"
 
   frontend:
@@ -36,6 +42,8 @@ services:
     env_file: .env.prod
     environment:
       - API_SERVER_URL=http://api:8000
+    ports:
+      - "8101:8001"
     volumes:
       - frontend_static:/app/staticfiles
     depends_on:
@@ -44,22 +52,6 @@ services:
     command: >
       sh -c "python manage.py collectstatic --noinput &&
              gunicorn config.wsgi:application --bind 0.0.0.0:8001 --workers 2 --timeout 60"
-
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - api_static:/var/www/api/static:ro
-      - api_media:/var/www/api/media:ro
-      - frontend_static:/var/www/frontend/static:ro
-    depends_on:
-      - api
-      - frontend
-    restart: always
 
 volumes:
   postgres_data:
