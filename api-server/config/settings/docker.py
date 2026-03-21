@@ -8,6 +8,8 @@ import os
 from .base import *  # noqa: F401,F403
 
 DEBUG = True
+
+INSTALLED_APPS = ["django.contrib.postgres"] + INSTALLED_APPS  # noqa: F405
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "docker-dev-insecure-key")
 
 DATABASES = {

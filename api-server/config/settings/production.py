@@ -9,6 +9,8 @@ import os
 from .base import *  # noqa: F401,F403
 
 DEBUG = False
+
+INSTALLED_APPS = ["django.contrib.postgres"] + INSTALLED_APPS  # noqa: F405
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
 
