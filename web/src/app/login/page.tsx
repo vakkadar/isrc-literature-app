@@ -1,14 +1,14 @@
 "use client";
+
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { login } from "@/services/api";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +20,6 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await login(username.trim(), password);
-      router.replace("/library");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {
@@ -29,44 +28,51 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-cream via-warm-bg to-cream-dark">
       <div className="w-full max-w-md">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold text-[#4a2c2a]">ISRC Literature</h1>
-          <p className="text-[#666] mt-2">Spiritual Audio & Document Library</p>
+          <div className="text-5xl mb-3">🪷</div>
+          <h1 className="text-3xl font-bold text-brown">ISRC Literature</h1>
+          <p className="text-warm-gray mt-2 text-sm">
+            Digital Library of Sahaj Marg Literature
+          </p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-2xl shadow-sm p-8 border border-[#e0ddd9]"
+          className="bg-white rounded-2xl shadow-lg shadow-brown/5 p-8 border border-cream-dark"
         >
-          <h2 className="text-xl font-semibold mb-6">Sign In</h2>
+          <h2 className="text-xl font-semibold text-brown mb-6">Sign In</h2>
 
           {error && (
-            <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm mb-4">
+            <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg text-sm mb-5 border border-red-100">
               {error}
             </div>
           )}
 
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1.5">Username</label>
+            <label className="block text-sm font-medium text-brown-light mb-1.5">
+              Username
+            </label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-2.5 border border-[#e0ddd9] rounded-lg bg-[#fafafa] focus:outline-none focus:ring-2 focus:ring-[#4a2c2a]/20 focus:border-[#4a2c2a]"
+              className="w-full px-4 py-2.5 border border-cream-dark rounded-lg bg-cream/30 text-brown focus:outline-none focus:ring-2 focus:ring-saffron/30 focus:border-saffron transition-colors"
               placeholder="Enter username"
               autoComplete="username"
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-1.5">Password</label>
+            <label className="block text-sm font-medium text-brown-light mb-1.5">
+              Password
+            </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2.5 border border-[#e0ddd9] rounded-lg bg-[#fafafa] focus:outline-none focus:ring-2 focus:ring-[#4a2c2a]/20 focus:border-[#4a2c2a]"
+              className="w-full px-4 py-2.5 border border-cream-dark rounded-lg bg-cream/30 text-brown focus:outline-none focus:ring-2 focus:ring-saffron/30 focus:border-saffron transition-colors"
               placeholder="Enter password"
               autoComplete="current-password"
             />
@@ -75,9 +81,16 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-[#4a2c2a] text-white rounded-lg font-semibold hover:bg-[#7b4a3a] transition-colors disabled:opacity-60"
+            className="w-full py-3 bg-gradient-to-r from-saffron to-saffron-dark text-white rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-60 shadow-md shadow-saffron/20"
           >
-            {loading ? "Signing in..." : "Login"}
+            {loading ? (
+              <span className="flex items-center justify-center gap-2">
+                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Signing in...
+              </span>
+            ) : (
+              "Sign In"
+            )}
           </button>
         </form>
       </div>

@@ -1,9 +1,13 @@
 import type {
+  Person,
+  Language,
+  Category,
+  Tag,
+  Collection,
+  CollectionDetail,
   ContentItem,
   ContentItemDetail,
-  Author,
-  Subject,
-  Tag,
+  Discovery,
   PaginatedResponse,
   LoginResponse,
 } from "@/types";
@@ -38,9 +42,20 @@ async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
       }
       throw new Error("UNAUTHORIZED");
     }
-    throw new Error(`API error: ${res.status}`);
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error || body.detail || `API error: ${res.status}`);
   }
   return res.json();
+}
+
+function toQuery(params: Record<string, string | number | boolean | undefined | null> | object): string {
+  const entries = Object.entries(params) as [string, unknown][];
+  const sp = new URLSearchParams();
+  entries.forEach(([k, v]) => {
+    if (v !== undefined && v !== null && v !== "") sp.set(k, String(v));
+  });
+  const s = sp.toString();
+  return s ? `?${s}` : "";
 }
 
 export async function login(username: string, password: string): Promise<LoginResponse> {
@@ -51,7 +66,7 @@ export async function login(username: string, password: string): Promise<LoginRe
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.error || "Login failed");
+    throw new Error(err.error || "Invalid credentials");
   }
   const data: LoginResponse = await res.json();
   localStorage.setItem("auth_token", data.token);
@@ -62,46 +77,69 @@ export async function login(username: string, password: string): Promise<LoginRe
 export async function logout(): Promise<void> {
   try {
     await apiFetch("/auth/logout/", { method: "POST" });
-  } catch {}
+  } catch {
+    /* ignore */
+  }
   localStorage.removeItem("auth_token");
   localStorage.removeItem("username");
 }
 
-export interface ContentFilters {
-  search?: string;
-  author?: number;
-  subject?: number;
-  year?: number;
-  content_type?: string;
-  tag?: string;
-  page?: number;
+export async function getPersons(): Promise<PaginatedResponse<Person>> {
+  return apiFetch("/persons/?page_size=200");
 }
 
-export async function getContentList(
-  filters: ContentFilters = {}
-): Promise<PaginatedResponse<ContentItem>> {
-  const params = new URLSearchParams();
-  Object.entries(filters).forEach(([key, val]) => {
-    if (val !== undefined && val !== null && val !== "") {
-      params.set(key, String(val));
-    }
-  });
-  const query = params.toString();
-  return apiFetch(`/content/${query ? `?${query}` : ""}`);
+export async function getLanguages(): Promise<PaginatedResponse<Language>> {
+  return apiFetch("/languages/?page_size=200");
 }
 
-export async function getContentDetail(id: number): Promise<ContentItemDetail> {
-  return apiFetch(`/content/${id}/`);
-}
-
-export async function getAuthors(): Promise<PaginatedResponse<Author>> {
-  return apiFetch("/authors/?page_size=100");
-}
-
-export async function getSubjects(): Promise<PaginatedResponse<Subject>> {
-  return apiFetch("/subjects/?page_size=100");
+export async function getCategories(): Promise<PaginatedResponse<Category>> {
+  return apiFetch("/categories/?page_size=200");
 }
 
 export async function getTags(): Promise<PaginatedResponse<Tag>> {
-  return apiFetch("/tags/?page_size=100");
+  return apiFetch("/tags/?page_size=200");
+}
+
+export interface ContentFilters {
+  search?: string;
+  person?: number;
+  category?: number;
+  language?: number;
+  content_type?: string;
+  collection?: number;
+  year?: number;
+  page?: number;
+  ordering?: string;
+}
+
+export async function getContentItems(
+  filters: ContentFilters = {}
+): Promise<PaginatedResponse<ContentItem>> {
+  return apiFetch(`/content/${toQuery(filters)}`);
+}
+
+export async function getContentItem(id: number): Promise<ContentItemDetail> {
+  return apiFetch(`/content/${id}/`);
+}
+
+export interface CollectionFilters {
+  person?: number;
+  category?: number;
+  language?: number;
+  search?: string;
+  page?: number;
+}
+
+export async function getCollections(
+  filters: CollectionFilters = {}
+): Promise<PaginatedResponse<Collection>> {
+  return apiFetch(`/collections/${toQuery(filters)}`);
+}
+
+export async function getCollection(id: number): Promise<CollectionDetail> {
+  return apiFetch(`/collections/${id}/`);
+}
+
+export async function getDiscoveries(): Promise<PaginatedResponse<Discovery>> {
+  return apiFetch("/discoveries/");
 }

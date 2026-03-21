@@ -1,12 +1,13 @@
 "use client";
+
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Home() {
+export default function RootPage() {
   const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("auth_token");
-    router.replace(token ? "/library" : "/login");
+    router.replace(token ? "/home" : "/login");
   }, [router]);
   return null;
 }

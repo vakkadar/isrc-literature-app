@@ -1,32 +1,43 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import extend_schema
 
-from .models import Author, Subject, Tag, ContentItem
+from .models import (
+    Person, Language, Category, Tag, Collection, ContentItem, Discovery,
+)
 from .serializers import (
-    AuthorSerializer,
-    SubjectSerializer,
+    PersonSerializer,
+    LanguageSerializer,
+    CategorySerializer,
     TagSerializer,
+    CollectionSerializer,
+    CollectionWithItemsSerializer,
     ContentItemListSerializer,
     ContentItemDetailSerializer,
+    DiscoverySerializer,
 )
-from .filters import ContentItemFilter
+from .filters import ContentItemFilter, CollectionFilter
 
 
-class AuthorViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Author.objects.all()
-    serializer_class = AuthorSerializer
+class PersonViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
     search_fields = ["name"]
 
 
-class SubjectViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Subject.objects.all()
-    serializer_class = SubjectSerializer
+class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Language.objects.all()
+    serializer_class = LanguageSerializer
+    search_fields = ["name", "code"]
+
+
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
     search_fields = ["name"]
 
 
@@ -36,37 +47,41 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
     search_fields = ["name"]
 
 
-class ContentItemViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = ContentItem.objects.select_related("author", "subject").prefetch_related(
-        "tags"
+class CollectionViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Collection.objects.select_related("person", "category", "language").prefetch_related(
+        "items"
     )
+    filterset_class = CollectionFilter
+    search_fields = ["title", "description", "person__name"]
+    ordering_fields = ["title", "year"]
+    ordering = ["title"]
+
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return CollectionWithItemsSerializer
+        return CollectionSerializer
+
+
+class ContentItemViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = ContentItem.objects.select_related(
+        "person", "category", "language", "collection"
+    ).prefetch_related("tags")
     filterset_class = ContentItemFilter
-    search_fields = ["title", "description", "author__name", "subject__name", "tags__name"]
-    ordering_fields = ["title", "year", "created_at", "author__name"]
-    ordering = ["-created_at"]
+    search_fields = ["title", "description", "person__name", "tags__name"]
+    ordering_fields = ["title", "year", "created_at", "chapter_number"]
+    ordering = ["collection", "chapter_number", "-created_at"]
 
     def get_serializer_class(self):
         if self.action == "retrieve":
             return ContentItemDetailSerializer
         return ContentItemListSerializer
 
-    @extend_schema(
-        description="Check if a content item's remote file has changed based on stored hash",
-        responses={200: {"type": "object", "properties": {
-            "changed": {"type": "boolean"},
-            "current_hash": {"type": "string"},
-            "last_modified": {"type": "string", "format": "date-time"},
-        }}},
-    )
-    @action(detail=True, methods=["get"])
-    def check_update(self, request, pk=None):
-        item = self.get_object()
-        return Response({
-            "changed": False,
-            "current_hash": item.file_hash,
-            "last_modified": item.last_modified_remote,
-            "drive_file_id": item.drive_file_id,
-        })
+
+class DiscoveryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Discovery.objects.select_related("person_mentioned").filter(status="pending")
+    serializer_class = DiscoverySerializer
+    search_fields = ["title", "snippet"]
+    ordering = ["-discovered_at"]
 
 
 class LoginView(APIView):

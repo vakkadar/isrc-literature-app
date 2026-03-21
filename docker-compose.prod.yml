@@ -20,24 +20,6 @@ services:
              python manage.py seed_superuser &&
              gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120"
 
-  frontend:
-    build:
-      context: ./frontend-server
-      dockerfile: Dockerfile
-    env_file: .env.prod
-    environment:
-      - API_SERVER_URL=http://api:8000
-    volumes:
-      - frontend_static:/app/staticfiles
-    networks:
-      - isrc-shared
-    depends_on:
-      - api
-    restart: always
-    command: >
-      sh -c "python manage.py collectstatic --noinput &&
-             gunicorn config.wsgi:application --bind 0.0.0.0:8001 --workers 2 --timeout 60"
-
   web:
     build:
       context: ./web
@@ -57,4 +39,3 @@ networks:
 volumes:
   api_static:
   api_media:
-  frontend_static:

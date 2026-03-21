@@ -20,3 +20,6 @@ web/.next/
 
 *.log
 .DS_Store
+
+scripts/content_catalog.json
+scripts/.venv/
