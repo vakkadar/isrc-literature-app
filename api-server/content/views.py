@@ -105,9 +105,17 @@ class LoginView(APIView):
         }}},
     )
     def post(self, request):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
         username = request.data.get("username")
         password = request.data.get("password")
         user = authenticate(username=username, password=password)
+        if not user:
+            try:
+                u = User.objects.get(email__iexact=username)
+                user = authenticate(username=u.username, password=password)
+            except User.DoesNotExist:
+                pass
         if user:
             token, _ = Token.objects.get_or_create(user=user)
             return Response({
