@@ -99,7 +99,6 @@ CRAWLER_DIGEST_EMAIL = os.environ.get("CRAWLER_DIGEST_EMAIL", "admin@isrc-litera
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
