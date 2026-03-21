@@ -11,8 +11,10 @@ media/
 .env.prod
 
 node_modules/
+.next/
 mobile/dist/
 mobile/.expo/
+web/.next/
 *.apk
 *.ipa
 
