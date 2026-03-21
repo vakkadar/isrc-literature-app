@@ -1,0 +1,122 @@
+[
+{
+  "model": "content.contentitem",
+  "pk": 5,
+  "fields": {
+    "title": "Guided Meditation - Inner Peace",
+    "author": 2,
+    "subject": 3,
+    "year": 2022,
+    "content_type": "audio",
+    "drive_file_id": "sample_drive_id_005",
+    "drive_url": "https://drive.google.com/uc?export=download&id=sample_drive_id_005",
+    "file_hash": "abc123hash005",
+    "last_modified_remote": null,
+    "duration_seconds": 1800,
+    "file_size_bytes": 18000000,
+    "description": "A guided meditation session for inner peace",
+    "created_at": "2026-03-21T18:48:59.209Z",
+    "updated_at": "2026-03-21T18:48:59.209Z",
+    "tags": [
+      4,
+      6
+    ]
+  }
+},
+{
+  "model": "content.contentitem",
+  "pk": 4,
+  "fields": {
+    "title": "The Life Divine - Discourse",
+    "author": 3,
+    "subject": 1,
+    "year": 2021,
+    "content_type": "audio",
+    "drive_file_id": "sample_drive_id_004",
+    "drive_url": "https://drive.google.com/uc?export=download&id=sample_drive_id_004",
+    "file_hash": "abc123hash004",
+    "last_modified_remote": null,
+    "duration_seconds": 5400,
+    "file_size_bytes": 54000000,
+    "description": "Discourse on Sri Aurobindo's magnum opus",
+    "created_at": "2026-03-21T18:48:59.192Z",
+    "updated_at": "2026-03-21T18:48:59.192Z",
+    "tags": [
+      2,
+      5
+    ]
+  }
+},
+{
+  "model": "content.contentitem",
+  "pk": 3,
+  "fields": {
+    "title": "Autobiography of a Yogi - Chapter Reading",
+    "author": 2,
+    "subject": 2,
+    "year": 2019,
+    "content_type": "audio",
+    "drive_file_id": "sample_drive_id_003",
+    "drive_url": "https://drive.google.com/uc?export=download&id=sample_drive_id_003",
+    "file_hash": "abc123hash003",
+    "last_modified_remote": null,
+    "duration_seconds": 4500,
+    "file_size_bytes": 45000000,
+    "description": "Audio reading from the spiritual classic",
+    "created_at": "2026-03-21T18:48:59.174Z",
+    "updated_at": "2026-03-21T18:48:59.175Z",
+    "tags": [
+      2,
+      5
+    ]
+  }
+},
+{
+  "model": "content.contentitem",
+  "pk": 2,
+  "fields": {
+    "title": "Raja Yoga - The Science of Mind",
+    "author": 1,
+    "subject": 2,
+    "year": 2020,
+    "content_type": "audio",
+    "drive_file_id": "sample_drive_id_002",
+    "drive_url": "https://drive.google.com/uc?export=download&id=sample_drive_id_002",
+    "file_hash": "abc123hash002",
+    "last_modified_remote": null,
+    "duration_seconds": 2700,
+    "file_size_bytes": 27000000,
+    "description": "Exploring the yoga of mental discipline",
+    "created_at": "2026-03-21T18:48:59.157Z",
+    "updated_at": "2026-03-21T18:48:59.157Z",
+    "tags": [
+      1,
+      6
+    ]
+  }
+},
+{
+  "model": "content.contentitem",
+  "pk": 1,
+  "fields": {
+    "title": "Karma Yoga - Lecture 1",
+    "author": 1,
+    "subject": 1,
+    "year": 2020,
+    "content_type": "audio",
+    "drive_file_id": "sample_drive_id_001",
+    "drive_url": "https://drive.google.com/uc?export=download&id=sample_drive_id_001",
+    "file_hash": "abc123hash001",
+    "last_modified_remote": null,
+    "duration_seconds": 3600,
+    "file_size_bytes": 36000000,
+    "description": "Introduction to the path of selfless action",
+    "created_at": "2026-03-21T18:48:59.135Z",
+    "updated_at": "2026-03-21T18:48:59.135Z",
+    "tags": [
+      1,
+      5
+    ]
+  }
+}
+]

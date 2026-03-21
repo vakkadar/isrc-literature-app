@@ -1,0 +1,26 @@
+[
+{
+  "model": "content.subject",
+  "pk": 3,
+  "fields": {
+    "name": "Meditation",
+    "description": "Contemplative practices"
+  }
+},
+{
+  "model": "content.subject",
+  "pk": 1,
+  "fields": {
+    "name": "Vedanta",
+    "description": "Hindu philosophical tradition"
+  }
+},
+{
+  "model": "content.subject",
+  "pk": 2,
+  "fields": {
+    "name": "Yoga",
+    "description": "Spiritual and physical practices"
+  }
+}
+]

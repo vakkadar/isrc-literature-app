@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISRC Literature</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f6f3;
+            color: #2d2d2d;
+        }
+        .header {
+            background: linear-gradient(135deg, #4a2c2a, #7b4a3a);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.3rem; }
+        .header p { opacity: 0.85; font-size: 0.95rem; }
+        .container { max-width: 800px; margin: 0 auto; padding: 1.5rem; }
+        .login-form {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+        }
+        .login-form h2 { margin-bottom: 1rem; font-size: 1.2rem; }
+        .form-row { margin-bottom: 1rem; }
+        .form-row label { display: block; margin-bottom: 0.3rem; font-weight: 500; font-size: 0.9rem; }
+        .form-row input {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        .btn {
+            background: #4a2c2a;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: #7b4a3a; }
+        .search-bar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        .filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .filters select {
+            padding: 0.5rem 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: white;
+        }
+        .content-list { display: flex; flex-direction: column; gap: 0.8rem; }
+        .content-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: box-shadow 0.2s;
+        }
+        .content-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+        .content-card h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+        .content-meta { font-size: 0.85rem; color: #666; }
+        .content-meta span { margin-right: 1rem; }
+        .tag {
+            display: inline-block;
+            background: #ede8e3;
+            color: #4a2c2a;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 0.3rem;
+            margin-top: 0.3rem;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .status-remote { background: #e3f2fd; color: #1565c0; }
+        .hidden { display: none; }
+        #message { padding: 0.5rem; margin-bottom: 1rem; border-radius: 8px; font-size: 0.9rem; }
+        .error { background: #fce4e4; color: #c62828; }
+        .success { background: #e8f5e9; color: #2e7d32; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ISRC Literature</h1>
+        <p>Spiritual Audio & Document Library</p>
+    </div>
+    <div class="container">
+        <div id="message" class="hidden"></div>
+
+        <div id="login-section" class="login-form">
+            <h2>Sign In</h2>
+            <div class="form-row">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter username">
+            </div>
+            <div class="form-row">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password">
+            </div>
+            <button class="btn" onclick="login()">Login</button>
+        </div>
+
+        <div id="content-section" class="hidden">
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search by title, author, subject..." oninput="debounceSearch()">
+                <button class="btn" onclick="loadContent()">Search</button>
+            </div>
+            <div class="filters">
+                <select id="filter-author" onchange="loadContent()">
+                    <option value="">All Authors</option>
+                </select>
+                <select id="filter-subject" onchange="loadContent()">
+                    <option value="">All Subjects</option>
+                </select>
+                <select id="filter-year" onchange="loadContent()">
+                    <option value="">All Years</option>
+                </select>
+                <select id="filter-type" onchange="loadContent()">
+                    <option value="">All Types</option>
+                    <option value="audio">Audio</option>
+                    <option value="pdf">PDF</option>
+                </select>
+            </div>
+            <div id="content-list" class="content-list"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "http://localhost:8000/api/v1";
+        let authToken = null;
+        let searchTimeout = null;
+
+        function showMessage(text, type) {
+            const el = document.getElementById("message");
+            el.textContent = text;
+            el.className = type;
+            el.classList.remove("hidden");
+            setTimeout(() => el.classList.add("hidden"), 4000);
+        }
+
+        function apiHeaders() {
+            const h = { "Content-Type": "application/json" };
+            if (authToken) h["Authorization"] = "Token " + authToken;
+            return h;
+        }
+
+        async function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            try {
+                const res = await fetch(`${API_BASE}/auth/login/`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password }),
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    authToken = data.token;
+                    document.getElementById("login-section").classList.add("hidden");
+                    document.getElementById("content-section").classList.remove("hidden");
+                    showMessage("Logged in as " + data.username, "success");
+                    loadFilters();
+                    loadContent();
+                } else {
+                    showMessage(data.error || "Login failed", "error");
+                }
+            } catch (e) {
+                showMessage("Connection error: " + e.message, "error");
+            }
+        }
+
+        async function loadFilters() {
+            try {
+                const [authorsRes, subjectsRes] = await Promise.all([
+                    fetch(`${API_BASE}/authors/`, { headers: apiHeaders() }),
+                    fetch(`${API_BASE}/subjects/`, { headers: apiHeaders() }),
+                ]);
+                const authorsData = await authorsRes.json();
+                const subjectsData = await subjectsRes.json();
+                const authors = authorsData.results || authorsData;
+                const subjects = subjectsData.results || subjectsData;
+
+                const authorSelect = document.getElementById("filter-author");
+                authors.forEach(a => {
+                    authorSelect.innerHTML += `<option value="${a.id}">${a.name}</option>`;
+                });
+
+                const subjectSelect = document.getElementById("filter-subject");
+                subjects.forEach(s => {
+                    subjectSelect.innerHTML += `<option value="${s.id}">${s.name}</option>`;
+                });
+            } catch (e) {
+                console.error("Failed to load filters:", e);
+            }
+        }
+
+        async function loadContent() {
+            const search = document.getElementById("search-input").value;
+            const author = document.getElementById("filter-author").value;
+            const subject = document.getElementById("filter-subject").value;
+            const year = document.getElementById("filter-year").value;
+            const type = document.getElementById("filter-type").value;
+
+            const params = new URLSearchParams();
+            if (search) params.set("search", search);
+            if (author) params.set("author", author);
+            if (subject) params.set("subject", subject);
+            if (year) params.set("year", year);
+            if (type) params.set("content_type", type);
+
+            try {
+                const res = await fetch(`${API_BASE}/content/?${params}`, { headers: apiHeaders() });
+                const data = await res.json();
+                const items = data.results || data;
+                renderContent(items);
+            } catch (e) {
+                showMessage("Failed to load content: " + e.message, "error");
+            }
+        }
+
+        function formatDuration(seconds) {
+            if (!seconds) return "";
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = seconds % 60;
+            if (h > 0) return `${h}h ${m}m`;
+            return `${m}m ${s}s`;
+        }
+
+        function renderContent(items) {
+            const list = document.getElementById("content-list");
+            if (!items.length) {
+                list.innerHTML = '<p style="text-align:center;color:#999;padding:2rem;">No content found.</p>';
+                return;
+            }
+            list.innerHTML = items.map(item => `
+                <div class="content-card">
+                    <h3>${item.title}</h3>
+                    <div class="content-meta">
+                        <span>${item.author_name}</span>
+                        <span>${item.subject_name}</span>
+                        ${item.year ? `<span>${item.year}</span>` : ""}
+                        ${item.duration_seconds ? `<span>${formatDuration(item.duration_seconds)}</span>` : ""}
+                        <span class="status-badge status-remote">${item.content_type}</span>
+                    </div>
+                    ${item.tags.length ? `<div>${item.tags.map(t => `<span class="tag">${t.name}</span>`).join("")}</div>` : ""}
+                    ${item.description ? `<p style="font-size:0.85rem;color:#888;margin-top:0.4rem;">${item.description}</p>` : ""}
+                </div>
+            `).join("");
+        }
+
+        function debounceSearch() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(loadContent, 300);
+        }
+
+        document.getElementById("password").addEventListener("keydown", e => {
+            if (e.key === "Enter") login();
+        });
+    </script>
+</body>
+</html>

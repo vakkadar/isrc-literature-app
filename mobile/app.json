@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "ISRC Literature",
+    "slug": "isrc-literature",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "isrc-literature",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#4a2c2a"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.isrc.literature"
+    },
+    "android": {
+      "package": "com.isrc.literature",
+      "adaptiveIcon": {
+        "backgroundColor": "#4a2c2a",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}

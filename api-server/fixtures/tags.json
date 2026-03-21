@@ -1,0 +1,44 @@
+[
+{
+  "model": "content.tag",
+  "pk": 3,
+  "fields": {
+    "name": "bhajan"
+  }
+},
+{
+  "model": "content.tag",
+  "pk": 2,
+  "fields": {
+    "name": "discourse"
+  }
+},
+{
+  "model": "content.tag",
+  "pk": 4,
+  "fields": {
+    "name": "guided"
+  }
+},
+{
+  "model": "content.tag",
+  "pk": 1,
+  "fields": {
+    "name": "lecture"
+  }
+},
+{
+  "model": "content.tag",
+  "pk": 5,
+  "fields": {
+    "name": "philosophy"
+  }
+},
+{
+  "model": "content.tag",
+  "pk": 6,
+  "fields": {
+    "name": "practice"
+  }
+}
+]

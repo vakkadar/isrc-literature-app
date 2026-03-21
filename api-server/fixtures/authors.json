@@ -1,0 +1,26 @@
+[
+{
+  "model": "content.author",
+  "pk": 2,
+  "fields": {
+    "name": "Paramahansa Yogananda",
+    "description": "Indian monk and yogi"
+  }
+},
+{
+  "model": "content.author",
+  "pk": 3,
+  "fields": {
+    "name": "Sri Aurobindo",
+    "description": "Indian philosopher, yogi, and poet"
+  }
+},
+{
+  "model": "content.author",
+  "pk": 1,
+  "fields": {
+    "name": "Swami Vivekananda",
+    "description": "Indian Hindu monk and philosopher"
+  }
+}
+]

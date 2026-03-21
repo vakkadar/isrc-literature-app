@@ -1,0 +1,45 @@
+# Local Docker development
+services:
+  db:
+    image: postgres:16-alpine
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build: ./api-server
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api-server:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py seed_superuser &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  frontend:
+    build: ./frontend-server
+    env_file: .env
+    environment:
+      - API_SERVER_URL=http://api:8000
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./frontend-server:/app
+    depends_on:
+      - api
+    command: python manage.py runserver 0.0.0.0:8001
+
+volumes:
+  postgres_data:
