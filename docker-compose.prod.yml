@@ -1,33 +1,18 @@
 # Production deployment (Hostinger)
 # literature.sanatanadharma.cloud
+# Nginx: ~/apps/nginx-proxy | Postgres: ~/apps/postgres
 
 services:
-  db:
-    image: postgres:16-alpine
-    env_file: .env.prod
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    restart: always
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   api:
     build:
       context: ./api-server
       dockerfile: Dockerfile
     env_file: .env.prod
-    networks:
-      - default
-      - shared
     volumes:
       - api_static:/app/staticfiles
       - api_media:/app/media
-    depends_on:
-      db:
-        condition: service_healthy
+    networks:
+      - isrc-shared
     restart: always
     command: >
       sh -c "python manage.py migrate --noinput &&
@@ -44,6 +29,8 @@ services:
       - API_SERVER_URL=http://api:8000
     volumes:
       - frontend_static:/app/staticfiles
+    networks:
+      - isrc-shared
     depends_on:
       - api
     restart: always
@@ -57,20 +44,17 @@ services:
       args:
         NEXT_PUBLIC_API_URL: https://literature.sanatanadharma.cloud
     networks:
-      - default
-      - shared
+      - isrc-shared
     depends_on:
       - api
     restart: always
 
 networks:
-  default:
-  shared:
+  isrc-shared:
     external: true
     name: isrc-shared
 
 volumes:
-  postgres_data:
   api_static:
   api_media:
   frontend_static:
