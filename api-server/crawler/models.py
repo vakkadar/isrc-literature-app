@@ -3,8 +3,6 @@ from urllib.parse import urlparse, urlunparse, parse_qsl, urlencode
 
 from django.db import models
 from wagtail.admin.panels import FieldPanel, InlinePanel
-from wagtail.snippets.models import register_snippet
-
 from content.models import Language, Person
 
 
@@ -33,7 +31,6 @@ def url_hash(url: str) -> str:
     return hashlib.sha256(normalize_url(url).encode("utf-8")).hexdigest()
 
 
-@register_snippet
 class PersonAlias(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name="aliases")
     alias = models.CharField(max_length=255)
@@ -56,7 +53,6 @@ class PersonAlias(models.Model):
         return f"{self.person.name} — {self.alias}"
 
 
-@register_snippet
 class DisambiguationKeyword(models.Model):
     class Weight(models.TextChoices):
         HARD = "hard", "Hard (strong include)"
@@ -84,7 +80,6 @@ class DisambiguationKeyword(models.Model):
         return f"[{self.weight}] {self.term}"
 
 
-@register_snippet
 class Source(models.Model):
     class Type(models.TextChoices):
         WEB = "web", "Web search"
@@ -157,7 +152,6 @@ class ContentTypeChoice(models.TextChoices):
     OTHER = "other", "Other"
 
 
-@register_snippet
 class Discovery(models.Model):
     """A single hit returned by a source, dedup'd, scored, and persisted."""
 
@@ -223,7 +217,6 @@ class Discovery(models.Model):
         super().save(*args, **kwargs)
 
 
-@register_snippet
 class CandidatePerson(models.Model):
     """A name surfaced from crawl results that may belong to a lineage group; awaits approval."""
 
