@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ISRC Crawler Digest — {{ group_label }}</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color:#222; max-width:780px; margin:0 auto; padding:24px;">
+
+  <h1 style="font-size:20px; margin:0 0 4px;">{{ group_label }}</h1>
+  <p style="color:#666; margin:0 0 16px; font-size:13px;">
+    Run #{{ run.id }} ·
+    {{ run.started_at|date:"Y-m-d H:i" }} → {{ run.finished_at|date:"Y-m-d H:i" }} ·
+    status: <strong>{{ run.status }}</strong> ·
+    <strong>{{ total }}</strong> new discover{{ total|pluralize:"y,ies" }}
+  </p>
+
+  {% for person, items in by_person.items %}
+    <h2 style="font-size:16px; margin:24px 0 8px; padding-bottom:4px; border-bottom:1px solid #eee;">
+      {{ person }} <span style="color:#999; font-weight:normal;">({{ items|length }})</span>
+    </h2>
+    {% for d in items %}
+      <div style="margin:0 0 14px; padding-left:8px; border-left:3px solid {% if d.score >= 5 %}#1f9d55{% elif d.score >= 2 %}#d69e2e{% else %}#c4c4c4{% endif %};">
+        <div>
+          <a href="{{ d.url }}" style="color:#1a4ed8; text-decoration:none;">{{ d.title }}</a>
+          <span style="color:#999; font-size:12px;">[{{ d.score }}]</span>
+        </div>
+        <div style="font-size:12px; color:#666;">
+          {{ d.source.name }} · {{ d.content_type }}{% if d.publish_date %} · {{ d.publish_date|date:"Y-m-d" }}{% endif %}
+        </div>
+        <div style="font-size:12px; color:#888; margin:2px 0;">
+          aliases: {{ d.matched_aliases|join:", " }}{% if d.matched_keywords %} · kw: {{ d.matched_keywords|join:", " }}{% endif %}
+        </div>
+        {% if d.snippet %}
+          <div style="font-size:13px; color:#444; margin-top:4px;">{{ d.snippet|truncatechars:300 }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% endfor %}
+
+  <hr style="margin:32px 0 16px; border:none; border-top:1px solid #eee;">
+  <p style="font-size:12px; color:#888;">
+    Review queue: <a href="https://isrc-api.sanatanadharma.cloud/admin/snippets/crawler/discovery/">admin / crawler / discoveries</a>
+  </p>
+</body>
+</html>

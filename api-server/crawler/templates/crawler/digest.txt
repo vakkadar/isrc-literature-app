@@ -1,0 +1,16 @@
+ISRC Crawler Digest — {{ group_label }}
+Run #{{ run.id }} · {{ run.started_at|date:"Y-m-d H:i" }} → {{ run.finished_at|date:"Y-m-d H:i" }} · status={{ run.status }}
+
+{{ total }} new discover{{ total|pluralize:"y,ies" }}
+
+{% for person, items in by_person.items %}
+--- {{ person }} ({{ items|length }}) ---
+{% for d in items %}{{ forloop.counter }}. [{{ d.score }}] {{ d.title }}
+   {{ d.source.name }} · {{ d.content_type }}{% if d.publish_date %} · {{ d.publish_date|date:"Y-m-d" }}{% endif %}
+   {{ d.url }}
+   matched: aliases={{ d.matched_aliases|join:", " }}{% if d.matched_keywords %} | kw={{ d.matched_keywords|join:", " }}{% endif %}
+{% if d.snippet %}   {{ d.snippet|truncatechars:240 }}
+{% endif %}
+{% endfor %}{% endfor %}
+
+Review queue: https://isrc-api.sanatanadharma.cloud/admin/snippets/crawler/discovery/

@@ -11,6 +11,7 @@ from django.utils import timezone
 
 from content.models import Person
 from crawler.filter import RuleBasedFilter
+from crawler.reports import send_group_digest
 from crawler.models import (
     CrawlRun,
     DisambiguationKeyword,
@@ -42,6 +43,7 @@ class Command(BaseCommand):
         parser.add_argument("--since", help="YYYY-MM-DD lower bound for source date filters")
         parser.add_argument("--max-per-source", type=int, help="Override Source.max_per_term")
         parser.add_argument("--dry-run", action="store_true", help="Run sources + filter but don't write Discoveries")
+        parser.add_argument("--no-digest", action="store_true", help="Skip sending digest email after the run")
         parser.add_argument("--triggered-by", default="manual", help="Marker for CrawlRun.triggered_by")
 
     def handle(self, *args, **opts):
@@ -55,6 +57,7 @@ class Command(BaseCommand):
                     since=since,
                     max_per_source=opts.get("max_per_source"),
                     dry_run=opts.get("dry_run", False),
+                    no_digest=opts.get("no_digest", False),
                     triggered_by=opts.get("triggered_by") or "manual",
                 )
             except Exception as e:
@@ -86,6 +89,7 @@ class Command(BaseCommand):
         since: Optional[date],
         max_per_source: Optional[int],
         dry_run: bool,
+        no_digest: bool,
         triggered_by: str,
     ):
         effective_since = since or self._last_success(group)
@@ -196,6 +200,17 @@ class Command(BaseCommand):
             run.stats = stats_summary
             run.save(update_fields=["finished_at", "status", "stats", "error"])
             self.stdout.write(self.style.SUCCESS(f"[{group}] run #{run.id} {run.status}: {per_source_stats}"))
+
+            if not dry_run and not no_digest:
+                try:
+                    sent = send_group_digest(run)
+                    if sent:
+                        self.stdout.write(f"[{group}] digest sent")
+                    else:
+                        self.stdout.write(f"[{group}] digest skipped (zero discoveries)")
+                except Exception as e:
+                    logger.exception("digest send failed for run=%s", run.id)
+                    self.stderr.write(self.style.WARNING(f"[{group}] digest send failed: {e}"))
 
     def _process_hits(
         self,
