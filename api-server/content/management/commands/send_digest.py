@@ -32,7 +32,7 @@ class Command(BaseCommand):
 
         self.stdout.write(f"Found {len(discoveries)} pending discoveries.")
 
-        from content.management.commands.run_crawler import send_digest_email
+        from content.management.commands.run_crawler_legacy import send_digest_email
 
         try:
             send_digest_email(discoveries)
