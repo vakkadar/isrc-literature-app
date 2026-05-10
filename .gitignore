@@ -26,3 +26,8 @@ web/.next/
 
 scripts/content_catalog.json
 scripts/.venv/
+
+.claude/
+.codex-tree/
+.cursor/
+scripts/open-cursor-usage.sh
