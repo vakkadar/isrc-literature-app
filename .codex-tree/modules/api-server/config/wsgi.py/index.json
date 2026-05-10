@@ -1,0 +1,17 @@
+{
+  "path": "api-server/config/wsgi.py",
+  "language": "python",
+  "content_hash": "sha256:eae3ca58dd999ba3acca85130f6c2fbae3b7a511850b0bb692c9073c0d8a21d0",
+  "symbols": [],
+  "imports": [
+    {
+      "source": "os",
+      "kind": "import"
+    },
+    {
+      "source": "from django.core.wsgi import get_wsgi_application",
+      "kind": "from_import"
+    }
+  ],
+  "exports": []
+}

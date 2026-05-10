@@ -1,6 +1,6 @@
 # HP home server deployment
 # Domain:    isrc-literature.sanatanadharma.cloud (web)
-#            api.isrc-literature.sanatanadharma.cloud (Django + Wagtail admin)
+#            isrc-api.sanatanadharma.cloud (Django + Wagtail admin)
 # Postgres:  reuse isrc-modern-db-1 (pgvector pg16) — separate DB + user
 # Network:   joins existing external network isrc-modern_default
 # Ingress:   isrc-modern nginx (host port 8088) ← cloudflared
@@ -30,7 +30,7 @@ services:
     build:
       context: ./web
       args:
-        NEXT_PUBLIC_API_URL: https://api.isrc-literature.sanatanadharma.cloud
+        NEXT_PUBLIC_API_URL: https://isrc-api.sanatanadharma.cloud
     container_name: isrc-literature-web
     networks:
       - shared

@@ -1,0 +1,20 @@
+{
+  "format_version": "0.1.0",
+  "tree_version": {
+    "generation": 1,
+    "delta_count": 0
+  },
+  "generated_at": "2026-03-28T17:27:58Z",
+  "generator": "codex-tree 0.1.0",
+  "source_commit": "8cfd067a149c95db9c866f2c81dede1e8839f1db",
+  "source_commit_date": "2026-03-21T17:47:35-04:00",
+  "stats": {
+    "total_files": 43,
+    "total_symbols": 134,
+    "total_lines_of_code": 2422,
+    "languages": [
+      "python"
+    ],
+    "delta_size_bytes": 0
+  }
+}

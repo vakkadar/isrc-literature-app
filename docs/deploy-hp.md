@@ -4,7 +4,7 @@ Stack: Django + Wagtail API, Next.js web, Postgres on host, Cloudflare Tunnel + 
 
 - HP user: `rvakkada`
 - App path: `/opt/isrc-literature-app`
-- Domains: `isrc-literature.sanatanadharma.cloud` (web), `api.isrc-literature.sanatanadharma.cloud` (api/admin)
+- Domains: `isrc-literature.sanatanadharma.cloud` (web), `isrc-api.sanatanadharma.cloud` (api/admin)
 - OS: Fedora 44
 
 ---
@@ -99,7 +99,7 @@ nano ~/.cloudflared/config.yml      # replace <TUNNEL_UUID> with real UUID
 Add DNS in Cloudflare dashboard (or via CLI):
 ```bash
 cloudflared tunnel route dns isrc-literature isrc-literature.sanatanadharma.cloud
-cloudflared tunnel route dns isrc-literature api.isrc-literature.sanatanadharma.cloud
+cloudflared tunnel route dns isrc-literature isrc-api.sanatanadharma.cloud
 ```
 
 Install as systemd service:
@@ -118,7 +118,7 @@ Cloudflare dashboard → Zero Trust → Access → Applications → Add applicat
 - Identity providers: Google + One-Time PIN
 - Policy "Owner only": Action Allow, Include → Emails: `rajkumar.vakkada@gmail.com`
 
-Repeat for `api.isrc-literature.sanatanadharma.cloud` (or skip if you want public API).
+Repeat for `isrc-api.sanatanadharma.cloud` (or skip if you want public API).
 
 ### 7. First deploy
 
@@ -130,7 +130,7 @@ docker compose -f docker-compose.hp.yml logs -f api      # watch migrations
 
 Verify:
 - Web: https://isrc-literature.sanatanadharma.cloud
-- Admin: https://api.isrc-literature.sanatanadharma.cloud/admin/
+- Admin: https://isrc-api.sanatanadharma.cloud/admin/
 
 ---
 

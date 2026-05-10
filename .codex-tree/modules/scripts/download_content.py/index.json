@@ -1,0 +1,113 @@
+{
+  "path": "scripts/download_content.py",
+  "language": "python",
+  "content_hash": "sha256:d43a33975d7622011f2ac3034d86f82b01ec38e8be6732a563a6e45108c5f534",
+  "symbols": [
+    {
+      "name": "sanitize_filename",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 25,
+        "end_line": 33
+      },
+      "signature": "def sanitize_filename(title"
+    },
+    {
+      "name": "get_extension",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 36,
+        "end_line": 42
+      },
+      "signature": "def get_extension(content_type"
+    },
+    {
+      "name": "create_session",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 45,
+        "end_line": 58
+      },
+      "signature": "def create_session() -> requests.Session"
+    },
+    {
+      "name": "download_file",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 61,
+        "end_line": 69
+      },
+      "signature": "def download_file(session"
+    },
+    {
+      "name": "main",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 72,
+        "end_line": 133
+      },
+      "signature": "def main()"
+    }
+  ],
+  "imports": [
+    {
+      "source": "json",
+      "kind": "import"
+    },
+    {
+      "source": "os",
+      "kind": "import"
+    },
+    {
+      "source": "re",
+      "kind": "import"
+    },
+    {
+      "source": "time",
+      "kind": "import"
+    },
+    {
+      "source": "from pathlib import Path",
+      "kind": "from_import"
+    },
+    {
+      "source": "requests",
+      "kind": "import"
+    },
+    {
+      "source": "from requests.adapters import HTTPAdapter",
+      "kind": "from_import"
+    },
+    {
+      "source": "from urllib3.util.retry import Retry",
+      "kind": "from_import"
+    }
+  ],
+  "exports": [
+    {
+      "name": "sanitize_filename",
+      "kind": "function"
+    },
+    {
+      "name": "get_extension",
+      "kind": "function"
+    },
+    {
+      "name": "create_session",
+      "kind": "function"
+    },
+    {
+      "name": "download_file",
+      "kind": "function"
+    },
+    {
+      "name": "main",
+      "kind": "function"
+    }
+  ]
+}

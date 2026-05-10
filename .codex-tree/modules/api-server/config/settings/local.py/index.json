@@ -1,0 +1,13 @@
+{
+  "path": "api-server/config/settings/local.py",
+  "language": "python",
+  "content_hash": "sha256:ca1da141ec23f635a3b3c97f1de2ecf93eae22e693d0f7d3c5de907dc5ed4ac3",
+  "symbols": [],
+  "imports": [
+    {
+      "source": "from .base import *",
+      "kind": "from_import"
+    }
+  ],
+  "exports": []
+}

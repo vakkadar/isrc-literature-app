@@ -1,0 +1,17 @@
+{
+  "path": "api-server/config/settings/docker.py",
+  "language": "python",
+  "content_hash": "sha256:bfa7a8f7c08401ab5002531a8c1e13193958eab08e7919aaaf80b938da4b6a39",
+  "symbols": [],
+  "imports": [
+    {
+      "source": "os",
+      "kind": "import"
+    },
+    {
+      "source": "from .base import *",
+      "kind": "from_import"
+    }
+  ],
+  "exports": []
+}

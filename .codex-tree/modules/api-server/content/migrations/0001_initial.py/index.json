@@ -1,0 +1,37 @@
+{
+  "path": "api-server/content/migrations/0001_initial.py",
+  "language": "python",
+  "content_hash": "sha256:706e18208b62624360ea71ca434a26e0d4bddd454465307e4e25a24babf6d226",
+  "symbols": [
+    {
+      "name": "Migration",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 8,
+        "end_line": 142
+      },
+      "signature": "class Migration(migrations.Migration)"
+    }
+  ],
+  "imports": [
+    {
+      "source": "django.db.models.deletion",
+      "kind": "import"
+    },
+    {
+      "source": "modelsearch.index",
+      "kind": "import"
+    },
+    {
+      "source": "from django.db import migrations, models",
+      "kind": "from_import"
+    }
+  ],
+  "exports": [
+    {
+      "name": "Migration",
+      "kind": "class"
+    }
+  ]
+}

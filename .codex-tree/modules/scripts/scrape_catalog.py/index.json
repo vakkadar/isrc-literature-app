@@ -1,0 +1,338 @@
+{
+  "path": "scripts/scrape_catalog.py",
+  "language": "python",
+  "content_hash": "sha256:f9956db98311b531392f2c019be652bf261375933f3015bb45ff3405225d9973",
+  "symbols": [
+    {
+      "name": "fetch_page",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 66,
+        "end_line": 76
+      },
+      "signature": "def fetch_page(url"
+    },
+    {
+      "name": "file_ext",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 79,
+        "end_line": 82
+      },
+      "signature": "def file_ext(url"
+    },
+    {
+      "name": "classify_content",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 85,
+        "end_line": 95
+      },
+      "signature": "def classify_content(url"
+    },
+    {
+      "name": "clean_title",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 98,
+        "end_line": 106
+      },
+      "signature": "def clean_title(raw",
+      "doc_comment": "\"\"\"Turn a filename or heading into a human-readable title.\"\"\""
+    },
+    {
+      "name": "title_from_url",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 109,
+        "end_line": 112
+      },
+      "signature": "def title_from_url(url"
+    },
+    {
+      "name": "detect_language",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 115,
+        "end_line": 132
+      },
+      "signature": "def detect_language(page_url"
+    },
+    {
+      "name": "detect_person",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 135,
+        "end_line": 153
+      },
+      "signature": "def detect_person(page_url"
+    },
+    {
+      "name": "detect_category",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 156,
+        "end_line": 195
+      },
+      "signature": "def detect_category(page_url"
+    },
+    {
+      "name": "extract_chapter_number",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 198,
+        "end_line": 215
+      },
+      "signature": "def extract_chapter_number(filename",
+      "doc_comment": "\"\"\"Try to pull a chapter/track number from the filename.\"\"\""
+    },
+    {
+      "name": "guess_collection",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 218,
+        "end_line": 243
+      },
+      "signature": "def guess_collection(title",
+      "doc_comment": "\"\"\"Group audio chapters that belong to the same book/collection.\"\"\""
+    },
+    {
+      "name": "find_section_heading",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 302,
+        "end_line": 311
+      },
+      "signature": "def find_section_heading(tag) -> str",
+      "doc_comment": "\"\"\"Walk backwards/upwards from a tag to find the nearest h2/h3 section heading.\"\"\""
+    },
+    {
+      "name": "scrape_site1_link_page",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 314,
+        "end_line": 379
+      },
+      "signature": "def scrape_site1_link_page(url",
+      "doc_comment": "\"\"\"Scrape a page that has direct <a> links to downloadable files.\"\"\""
+    },
+    {
+      "name": "scrape_site1_audio_headings",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 382,
+        "end_line": 487
+      },
+      "signature": "def scrape_site1_audio_headings(url",
+      "doc_comment": "\"\"\"\n    Audio pages on babujisahajmarg.in list filenames as h6/h5 headings.\n    Some have <a> links, others just text. For the text-only ones we try\n    to reconstruct the URL from the known directory pattern.\n    \"\"\""
+    },
+    {
+      "name": "scrape_site1",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 490,
+        "end_line": 505
+      },
+      "signature": "def scrape_site1() -> list[dict]"
+    },
+    {
+      "name": "scrape_site2_page",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 554,
+        "end_line": 633
+      },
+      "signature": "def scrape_site2_page(url"
+    },
+    {
+      "name": "scrape_site2",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 636,
+        "end_line": 647
+      },
+      "signature": "def scrape_site2() -> list[dict]"
+    },
+    {
+      "name": "deduplicate",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 652,
+        "end_line": 662
+      },
+      "signature": "def deduplicate(items",
+      "doc_comment": "\"\"\"Remove exact URL duplicates; keep both sites but normalize collection hints.\"\"\""
+    },
+    {
+      "name": "compute_stats",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 665,
+        "end_line": 679
+      },
+      "signature": "def compute_stats(items"
+    },
+    {
+      "name": "print_summary",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 682,
+        "end_line": 706
+      },
+      "signature": "def print_summary(stats"
+    },
+    {
+      "name": "main",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 709,
+        "end_line": 737
+      },
+      "signature": "def main()"
+    }
+  ],
+  "imports": [
+    {
+      "source": "json",
+      "kind": "import"
+    },
+    {
+      "source": "re",
+      "kind": "import"
+    },
+    {
+      "source": "sys",
+      "kind": "import"
+    },
+    {
+      "source": "time",
+      "kind": "import"
+    },
+    {
+      "source": "from collections import Counter",
+      "kind": "from_import"
+    },
+    {
+      "source": "from datetime import datetime, timezone",
+      "kind": "from_import"
+    },
+    {
+      "source": "from pathlib import Path",
+      "kind": "from_import"
+    },
+    {
+      "source": "from urllib.parse import unquote, urljoin, urlparse",
+      "kind": "from_import"
+    },
+    {
+      "source": "requests",
+      "kind": "import"
+    },
+    {
+      "source": "from bs4 import BeautifulSoup",
+      "kind": "from_import"
+    }
+  ],
+  "exports": [
+    {
+      "name": "fetch_page",
+      "kind": "function"
+    },
+    {
+      "name": "file_ext",
+      "kind": "function"
+    },
+    {
+      "name": "classify_content",
+      "kind": "function"
+    },
+    {
+      "name": "clean_title",
+      "kind": "function"
+    },
+    {
+      "name": "title_from_url",
+      "kind": "function"
+    },
+    {
+      "name": "detect_language",
+      "kind": "function"
+    },
+    {
+      "name": "detect_person",
+      "kind": "function"
+    },
+    {
+      "name": "detect_category",
+      "kind": "function"
+    },
+    {
+      "name": "extract_chapter_number",
+      "kind": "function"
+    },
+    {
+      "name": "guess_collection",
+      "kind": "function"
+    },
+    {
+      "name": "find_section_heading",
+      "kind": "function"
+    },
+    {
+      "name": "scrape_site1_link_page",
+      "kind": "function"
+    },
+    {
+      "name": "scrape_site1_audio_headings",
+      "kind": "function"
+    },
+    {
+      "name": "scrape_site1",
+      "kind": "function"
+    },
+    {
+      "name": "scrape_site2_page",
+      "kind": "function"
+    },
+    {
+      "name": "scrape_site2",
+      "kind": "function"
+    },
+    {
+      "name": "deduplicate",
+      "kind": "function"
+    },
+    {
+      "name": "compute_stats",
+      "kind": "function"
+    },
+    {
+      "name": "print_summary",
+      "kind": "function"
+    },
+    {
+      "name": "main",
+      "kind": "function"
+    }
+  ]
+}

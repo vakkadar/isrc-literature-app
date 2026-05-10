@@ -1,0 +1,115 @@
+{
+  "path": "api-server/content/management/commands/import_catalog.py",
+  "language": "python",
+  "content_hash": "sha256:214702e1e5ee5406bb679b03823ffac4ffa1b24ab40d6e7bb8d3b9fdcdede40c",
+  "symbols": [
+    {
+      "name": "Command",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 21,
+        "end_line": 164
+      },
+      "signature": "class Command(BaseCommand)"
+    },
+    {
+      "name": "handle",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 24,
+        "end_line": 51
+      },
+      "signature": "def handle(self, *args, **options)",
+      "parent": "Command"
+    },
+    {
+      "name": "_create_languages",
+      "kind": "function",
+      "visibility": "private",
+      "span": {
+        "start_line": 53,
+        "end_line": 62
+      },
+      "signature": "def _create_languages(self)",
+      "parent": "Command"
+    },
+    {
+      "name": "_create_persons",
+      "kind": "function",
+      "visibility": "private",
+      "span": {
+        "start_line": 64,
+        "end_line": 74
+      },
+      "signature": "def _create_persons(self, items)",
+      "parent": "Command"
+    },
+    {
+      "name": "_create_categories",
+      "kind": "function",
+      "visibility": "private",
+      "span": {
+        "start_line": 76,
+        "end_line": 89
+      },
+      "signature": "def _create_categories(self, items)",
+      "parent": "Command"
+    },
+    {
+      "name": "_create_collections",
+      "kind": "function",
+      "visibility": "private",
+      "span": {
+        "start_line": 91,
+        "end_line": 119
+      },
+      "signature": "def _create_collections(self, items, persons, categories, languages)",
+      "parent": "Command"
+    },
+    {
+      "name": "_create_content_items",
+      "kind": "function",
+      "visibility": "private",
+      "span": {
+        "start_line": 121,
+        "end_line": 164
+      },
+      "signature": "def _create_content_items(self, items, persons, categories, languages, collections)",
+      "parent": "Command"
+    }
+  ],
+  "imports": [
+    {
+      "source": "json",
+      "kind": "import"
+    },
+    {
+      "source": "from pathlib import Path",
+      "kind": "from_import"
+    },
+    {
+      "source": "from django.core.management.base import BaseCommand",
+      "kind": "from_import"
+    },
+    {
+      "source": "from django.utils.text import slugify",
+      "kind": "from_import"
+    },
+    {
+      "source": "from content.models import Category, Collection, ContentItem, Language, Person",
+      "kind": "from_import"
+    }
+  ],
+  "exports": [
+    {
+      "name": "Command",
+      "kind": "class"
+    },
+    {
+      "name": "handle",
+      "kind": "function"
+    }
+  ]
+}

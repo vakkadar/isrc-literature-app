@@ -1,0 +1,29 @@
+{
+  "path": "api-server/content/migrations/0002_alter_discovery_source.py",
+  "language": "python",
+  "content_hash": "sha256:e230c41f38d0569da3b79cd70c42d3b0bcedf14c1c573fd5adcd5c871aaee0e4",
+  "symbols": [
+    {
+      "name": "Migration",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 6,
+        "end_line": 18
+      },
+      "signature": "class Migration(migrations.Migration)"
+    }
+  ],
+  "imports": [
+    {
+      "source": "from django.db import migrations, models",
+      "kind": "from_import"
+    }
+  ],
+  "exports": [
+    {
+      "name": "Migration",
+      "kind": "class"
+    }
+  ]
+}

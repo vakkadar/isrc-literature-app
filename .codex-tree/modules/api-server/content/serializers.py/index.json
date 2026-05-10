@@ -1,0 +1,413 @@
+{
+  "path": "api-server/content/serializers.py",
+  "language": "python",
+  "content_hash": "sha256:ea35a5bd26061be9c31cd6b2185c53d23d5eae2fa4592e4f3c8e9c8dc5b1d2c9",
+  "symbols": [
+    {
+      "name": "PersonSerializer",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 7,
+        "end_line": 10
+      },
+      "signature": "class PersonSerializer(serializers.ModelSerializer)"
+    },
+    {
+      "name": "Meta",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 8,
+        "end_line": 10
+      },
+      "signature": "class Meta",
+      "parent": "PersonSerializer"
+    },
+    {
+      "name": "LanguageSerializer",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 13,
+        "end_line": 16
+      },
+      "signature": "class LanguageSerializer(serializers.ModelSerializer)"
+    },
+    {
+      "name": "Meta",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 14,
+        "end_line": 16
+      },
+      "signature": "class Meta",
+      "parent": "LanguageSerializer"
+    },
+    {
+      "name": "CategorySerializer",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 19,
+        "end_line": 22
+      },
+      "signature": "class CategorySerializer(serializers.ModelSerializer)"
+    },
+    {
+      "name": "Meta",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 20,
+        "end_line": 22
+      },
+      "signature": "class Meta",
+      "parent": "CategorySerializer"
+    },
+    {
+      "name": "TagSerializer",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 25,
+        "end_line": 28
+      },
+      "signature": "class TagSerializer(serializers.ModelSerializer)"
+    },
+    {
+      "name": "Meta",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 26,
+        "end_line": 28
+      },
+      "signature": "class Meta",
+      "parent": "TagSerializer"
+    },
+    {
+      "name": "CollectionSerializer",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 31,
+        "end_line": 41
+      },
+      "signature": "class CollectionSerializer(serializers.ModelSerializer)"
+    },
+    {
+      "name": "Meta",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 36,
+        "end_line": 41
+      },
+      "signature": "class Meta",
+      "parent": "CollectionSerializer"
+    },
+    {
+      "name": "CollectionDetailSerializer",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 44,
+        "end_line": 53
+      },
+      "signature": "class CollectionDetailSerializer(serializers.ModelSerializer)"
+    },
+    {
+      "name": "Meta",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 49,
+        "end_line": 53
+      },
+      "signature": "class Meta",
+      "parent": "CollectionDetailSerializer"
+    },
+    {
+      "name": "ContentItemListSerializer",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 56,
+        "end_line": 81
+      },
+      "signature": "class ContentItemListSerializer(serializers.ModelSerializer)"
+    },
+    {
+      "name": "Meta",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 65,
+        "end_line": 73
+      },
+      "signature": "class Meta",
+      "parent": "ContentItemListSerializer"
+    },
+    {
+      "name": "get_file_url",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 75,
+        "end_line": 81
+      },
+      "signature": "def get_file_url(self, obj)",
+      "parent": "ContentItemListSerializer"
+    },
+    {
+      "name": "ContentItemDetailSerializer",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 84,
+        "end_line": 107
+      },
+      "signature": "class ContentItemDetailSerializer(serializers.ModelSerializer)"
+    },
+    {
+      "name": "Meta",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 92,
+        "end_line": 99
+      },
+      "signature": "class Meta",
+      "parent": "ContentItemDetailSerializer"
+    },
+    {
+      "name": "get_file_url",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 101,
+        "end_line": 107
+      },
+      "signature": "def get_file_url(self, obj)",
+      "parent": "ContentItemDetailSerializer"
+    },
+    {
+      "name": "ContentItemNestedSerializer",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 110,
+        "end_line": 127
+      },
+      "signature": "class ContentItemNestedSerializer(serializers.ModelSerializer)",
+      "doc_comment": "\"\"\"Compact serializer used when nesting items inside a collection.\"\"\""
+    },
+    {
+      "name": "Meta",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 114,
+        "end_line": 119
+      },
+      "signature": "class Meta",
+      "parent": "ContentItemNestedSerializer"
+    },
+    {
+      "name": "get_file_url",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 121,
+        "end_line": 127
+      },
+      "signature": "def get_file_url(self, obj)",
+      "parent": "ContentItemNestedSerializer"
+    },
+    {
+      "name": "CollectionWithItemsSerializer",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 130,
+        "end_line": 141
+      },
+      "signature": "class CollectionWithItemsSerializer(serializers.ModelSerializer)"
+    },
+    {
+      "name": "Meta",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 136,
+        "end_line": 141
+      },
+      "signature": "class Meta",
+      "parent": "CollectionWithItemsSerializer"
+    },
+    {
+      "name": "DiscoverySerializer",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 144,
+        "end_line": 155
+      },
+      "signature": "class DiscoverySerializer(serializers.ModelSerializer)"
+    },
+    {
+      "name": "Meta",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 149,
+        "end_line": 155
+      },
+      "signature": "class Meta",
+      "parent": "DiscoverySerializer"
+    },
+    {
+      "name": "CrawlerSearchTermSerializer",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 158,
+        "end_line": 163
+      },
+      "signature": "class CrawlerSearchTermSerializer(serializers.ModelSerializer)"
+    },
+    {
+      "name": "Meta",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 161,
+        "end_line": 163
+      },
+      "signature": "class Meta",
+      "parent": "CrawlerSearchTermSerializer"
+    }
+  ],
+  "imports": [
+    {
+      "source": "from rest_framework import serializers",
+      "kind": "from_import"
+    },
+    {
+      "source": "from .models import (\n    Person, Language, Category, Tag, Collection, ContentItem, Discovery, CrawlerSearchTerm,\n)",
+      "kind": "from_import"
+    }
+  ],
+  "exports": [
+    {
+      "name": "PersonSerializer",
+      "kind": "class"
+    },
+    {
+      "name": "Meta",
+      "kind": "class"
+    },
+    {
+      "name": "LanguageSerializer",
+      "kind": "class"
+    },
+    {
+      "name": "Meta",
+      "kind": "class"
+    },
+    {
+      "name": "CategorySerializer",
+      "kind": "class"
+    },
+    {
+      "name": "Meta",
+      "kind": "class"
+    },
+    {
+      "name": "TagSerializer",
+      "kind": "class"
+    },
+    {
+      "name": "Meta",
+      "kind": "class"
+    },
+    {
+      "name": "CollectionSerializer",
+      "kind": "class"
+    },
+    {
+      "name": "Meta",
+      "kind": "class"
+    },
+    {
+      "name": "CollectionDetailSerializer",
+      "kind": "class"
+    },
+    {
+      "name": "Meta",
+      "kind": "class"
+    },
+    {
+      "name": "ContentItemListSerializer",
+      "kind": "class"
+    },
+    {
+      "name": "Meta",
+      "kind": "class"
+    },
+    {
+      "name": "get_file_url",
+      "kind": "function"
+    },
+    {
+      "name": "ContentItemDetailSerializer",
+      "kind": "class"
+    },
+    {
+      "name": "Meta",
+      "kind": "class"
+    },
+    {
+      "name": "get_file_url",
+      "kind": "function"
+    },
+    {
+      "name": "ContentItemNestedSerializer",
+      "kind": "class"
+    },
+    {
+      "name": "Meta",
+      "kind": "class"
+    },
+    {
+      "name": "get_file_url",
+      "kind": "function"
+    },
+    {
+      "name": "CollectionWithItemsSerializer",
+      "kind": "class"
+    },
+    {
+      "name": "Meta",
+      "kind": "class"
+    },
+    {
+      "name": "DiscoverySerializer",
+      "kind": "class"
+    },
+    {
+      "name": "Meta",
+      "kind": "class"
+    },
+    {
+      "name": "CrawlerSearchTermSerializer",
+      "kind": "class"
+    },
+    {
+      "name": "Meta",
+      "kind": "class"
+    }
+  ]
+}

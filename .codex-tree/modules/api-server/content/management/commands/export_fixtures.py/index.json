@@ -1,0 +1,60 @@
+{
+  "path": "api-server/content/management/commands/export_fixtures.py",
+  "language": "python",
+  "content_hash": "sha256:a218b7298be28285122e6d2259b944a446e8e732532a2ec222a2e0881b1f9292",
+  "symbols": [
+    {
+      "name": "Command",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 12,
+        "end_line": 32
+      },
+      "signature": "class Command(BaseCommand)"
+    },
+    {
+      "name": "handle",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 15,
+        "end_line": 32
+      },
+      "signature": "def handle(self, *args, **options)",
+      "parent": "Command"
+    }
+  ],
+  "imports": [
+    {
+      "source": "json",
+      "kind": "import"
+    },
+    {
+      "source": "from pathlib import Path",
+      "kind": "from_import"
+    },
+    {
+      "source": "from django.core.management.base import BaseCommand",
+      "kind": "from_import"
+    },
+    {
+      "source": "from django.core.serializers import serialize",
+      "kind": "from_import"
+    },
+    {
+      "source": "from content.models import Author, Subject, Tag, ContentItem",
+      "kind": "from_import"
+    }
+  ],
+  "exports": [
+    {
+      "name": "Command",
+      "kind": "class"
+    },
+    {
+      "name": "handle",
+      "kind": "function"
+    }
+  ]
+}

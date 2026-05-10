@@ -1,0 +1,75 @@
+{
+  "path": "api-server/content/management/commands/send_digest.py",
+  "language": "python",
+  "content_hash": "sha256:cfbfca08a6fc9e5e33fe6e3ce0e4819b2d11b5bb57eeae88beba6e8766429b1f",
+  "symbols": [
+    {
+      "name": "Command",
+      "kind": "class",
+      "visibility": "public",
+      "span": {
+        "start_line": 6,
+        "end_line": 41
+      },
+      "signature": "class Command(BaseCommand)"
+    },
+    {
+      "name": "add_arguments",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 9,
+        "end_line": 15
+      },
+      "signature": "def add_arguments(self, parser)",
+      "parent": "Command"
+    },
+    {
+      "name": "handle",
+      "kind": "function",
+      "visibility": "public",
+      "span": {
+        "start_line": 17,
+        "end_line": 41
+      },
+      "signature": "def handle(self, *args, **options)",
+      "parent": "Command"
+    }
+  ],
+  "imports": [
+    {
+      "source": "from django.core.management.base import BaseCommand",
+      "kind": "from_import"
+    },
+    {
+      "source": "from content.models import Discovery",
+      "kind": "from_import"
+    },
+    {
+      "source": "from django.utils import timezone",
+      "kind": "from_import"
+    },
+    {
+      "source": "from datetime import timedelta",
+      "kind": "from_import"
+    },
+    {
+      "source": "from content.management.commands.run_crawler import send_digest_email",
+      "kind": "from_import"
+    }
+  ],
+  "exports": [
+    {
+      "name": "Command",
+      "kind": "class"
+    },
+    {
+      "name": "add_arguments",
+      "kind": "function"
+    },
+    {
+      "name": "handle",
+      "kind": "function"
+    }
+  ]
+}
