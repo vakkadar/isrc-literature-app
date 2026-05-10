@@ -9,6 +9,9 @@ media/
 
 .env
 .env.prod
+.env.hp
+.env.local
+.cloudflared/
 
 node_modules/
 .next/

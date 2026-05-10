@@ -1,0 +1,13 @@
+# cloudflared tunnel config for HP
+# Copy to /home/rvakkada/.cloudflared/config.yml on HP
+# Replace <TUNNEL_UUID> with output of `cloudflared tunnel create isrc-literature`
+
+tunnel: <TUNNEL_UUID>
+credentials-file: /home/rvakkada/.cloudflared/<TUNNEL_UUID>.json
+
+ingress:
+  - hostname: isrc-literature.sanatanadharma.cloud
+    service: http://localhost:3000
+  - hostname: api.isrc-literature.sanatanadharma.cloud
+    service: http://localhost:8000
+  - service: http_status:404

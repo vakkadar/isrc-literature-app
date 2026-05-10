@@ -1,0 +1,48 @@
+# HP home server deployment
+# Domain:    isrc-literature.sanatanadharma.cloud (web)
+#            api.isrc-literature.sanatanadharma.cloud (Django + Wagtail admin)
+# Postgres:  reuse isrc-modern-db-1 (pgvector pg16) — separate DB + user
+# Network:   joins existing external network isrc-modern_default
+# Ingress:   isrc-modern nginx (host port 8088) ← cloudflared
+# Path:      /opt/isrc-literature-app
+# Run:       docker compose -f docker-compose.hp.yml up -d --build
+
+services:
+  isrc-literature-api:
+    build:
+      context: ./api-server
+      dockerfile: Dockerfile
+    container_name: isrc-literature-api
+    env_file: .env.hp
+    volumes:
+      - api_static:/app/staticfiles
+      - api_media:/app/media
+    networks:
+      - shared
+    restart: unless-stopped
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             python manage.py collectstatic --noinput &&
+             python manage.py seed_superuser &&
+             gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120"
+
+  isrc-literature-web:
+    build:
+      context: ./web
+      args:
+        NEXT_PUBLIC_API_URL: https://api.isrc-literature.sanatanadharma.cloud
+    container_name: isrc-literature-web
+    networks:
+      - shared
+    depends_on:
+      - isrc-literature-api
+    restart: unless-stopped
+
+networks:
+  shared:
+    external: true
+    name: isrc-modern_default
+
+volumes:
+  api_static:
+  api_media:
