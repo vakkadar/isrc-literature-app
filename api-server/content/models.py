@@ -12,9 +12,20 @@ class Person(index.Indexed, models.Model):
         RESEARCHER = "researcher", "Researcher"
         OTHER = "other", "Other"
 
+    class LineageGroup(models.TextChoices):
+        NONE = "", "— Not in crawler —"
+        A_BABUJI = "A_BABUJI", "A — Babuji + direct disciples"
+        B_LALAJI_DIRECT = "B_LALAJI_DIRECT", "B — Lalaji's direct disciples"
+        C_LINEAGE = "C_LINEAGE", "C — Lalaji's predecessor lineage"
+
     name = models.CharField(max_length=255, unique=True)
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.MASTER)
     description = models.TextField(blank=True)
+    lineage_group = models.CharField(
+        max_length=20, choices=LineageGroup.choices, blank=True, default="",
+        help_text="Group this person belongs to for the crawler. Blank = not crawled.",
+    )
+    crawl_active = models.BooleanField(default=True, help_text="Include in crawler runs")
 
     search_fields = [
         index.SearchField("name"),
@@ -24,6 +35,8 @@ class Person(index.Indexed, models.Model):
         FieldPanel("name"),
         FieldPanel("role"),
         FieldPanel("description"),
+        FieldPanel("lineage_group"),
+        FieldPanel("crawl_active"),
     ]
 
     class Meta:
