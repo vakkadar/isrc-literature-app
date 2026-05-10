@@ -136,11 +136,42 @@ Verify:
 
 ## Updates
 
+Manual:
 ```bash
 ssh rvakkada@<hp-ip>
 cd /opt/isrc-literature-app
 ./scripts/deploy-hp.sh
 ```
+
+Auto-deploy on push to `main`: GitHub Actions `.github/workflows/deploy-hp.yml` SSHes
+in and runs the same script. Required repo secrets:
+
+- `HP_SSH_HOST` — HP public hostname or Cloudflare-Access-protected SSH endpoint
+- `HP_SSH_USER` — `rvakkada`
+- `HP_SSH_KEY` — private key with passphrase-less access to that user
+- `HP_SSH_PORT` (optional, defaults 22)
+
+## Weekly crawler (Saturday 09:00 America/New_York)
+
+Install user-cron on HP (one-time):
+```bash
+ssh hp
+cd /opt/isrc-literature-app
+./scripts/setup_crawler_cron.sh
+crontab -l    # verify
+```
+
+The cron runs `python manage.py run_crawler --group all --triggered-by cron`
+inside the `api` container, which sends per-group digest emails to
+`CRAWLER_DIGEST_TO` (default `rajkumar.vakkada@gmail.com`). Logs at
+`/var/log/isrc-crawler.log`.
+
+Required `.env.hp` entries (set on HP before the first cron fires):
+- `YOUTUBE_API_KEY` — YouTube Data API v3 key
+- `LISTENNOTES_API_KEY` — Listen Notes free-tier key
+- `GOOGLE_BOOKS_API_KEY` — optional, raises Books quota
+- SMTP creds for digest delivery (`EMAIL_HOST`, `EMAIL_HOST_USER`,
+  `EMAIL_HOST_PASSWORD`, `DEFAULT_FROM_EMAIL`)
 
 ## Backups (weekly to USB)
 

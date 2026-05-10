@@ -1,28 +1,34 @@
 #!/usr/bin/env bash
+# Installs the weekly crawler user-cron on HP. Run on HP as the deploy user (rvakkada).
+# Idempotent: replaces any existing 'crawler-cron.sh' entry.
 set -euo pipefail
 
-CRON_CMD='0 3 * * 0 cd /opt/isrc-literature-app && docker compose -f docker-compose.prod.yml exec -T api python manage.py run_crawler >> /var/log/isrc-crawler.log 2>&1'
+APP_DIR="/opt/isrc-literature-app"
+SCRIPT="$APP_DIR/scripts/crawler-cron.sh"
 LOG_FILE="/var/log/isrc-crawler.log"
+MARKER="crawler-cron.sh"
+TZ_LINE="CRON_TZ=America/New_York"
+CRON_LINE="0 9 * * 6 $SCRIPT >> $LOG_FILE 2>&1"
 
-if ! command -v crontab &>/dev/null; then
-    echo "ERROR: crontab not found. Install cron first."
+if [[ ! -x "$SCRIPT" ]]; then
+    echo "ERROR: $SCRIPT not found or not executable. Run 'git pull' in $APP_DIR first." >&2
     exit 1
 fi
 
-sudo touch "$LOG_FILE"
-sudo chmod 666 "$LOG_FILE"
-
-existing=$(crontab -l 2>/dev/null || true)
-if echo "$existing" | grep -qF "run_crawler"; then
-    echo "Crawler cron job already exists:"
-    echo "$existing" | grep "run_crawler"
-    echo ""
-    echo "To replace it, remove the existing entry first: crontab -e"
-    exit 0
+if [[ ! -w "$LOG_FILE" ]]; then
+    sudo touch "$LOG_FILE"
+    sudo chown "$USER":"$USER" "$LOG_FILE"
 fi
 
-(echo "$existing"; echo ""; echo "$CRON_CMD") | crontab -
-echo "Cron job installed. Crawler will run every Sunday at 3:00 AM."
+current=$(crontab -l 2>/dev/null || true)
+filtered=$(echo "$current" | grep -v "$MARKER" | grep -v '^CRON_TZ=America/New_York$' || true)
+
+{
+    [[ -n "$filtered" ]] && echo "$filtered"
+    echo "$TZ_LINE"
+    echo "$CRON_LINE"
+} | crontab -
+
+echo "Installed crawler cron (Saturday 09:00 America/New_York)."
 echo "Logs: $LOG_FILE"
-echo ""
-echo "Verify with: crontab -l"
+echo "Verify: crontab -l"

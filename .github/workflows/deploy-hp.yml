@@ -1,0 +1,27 @@
+name: Deploy to HP
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-hp
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH and run deploy-hp.sh
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.HP_SSH_HOST }}
+          username: ${{ secrets.HP_SSH_USER }}
+          key: ${{ secrets.HP_SSH_KEY }}
+          port: ${{ secrets.HP_SSH_PORT || 22 }}
+          command_timeout: 20m
+          script: |
+            set -euo pipefail
+            cd /opt/isrc-literature-app
+            ./scripts/deploy-hp.sh
