@@ -1,0 +1,38 @@
+name: API tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "api-server/**"
+      - ".github/workflows/test-api.yml"
+  pull_request:
+    paths:
+      - "api-server/**"
+      - ".github/workflows/test-api.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api-server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: api-server/requirements.txt
+      - name: Install deps
+        run: pip install -r requirements.txt
+      - name: Django check
+        env:
+          DJANGO_SETTINGS_MODULE: config.settings.local
+          DJANGO_SECRET_KEY: test-only
+        run: python manage.py check
+      - name: Run tests
+        env:
+          DJANGO_SETTINGS_MODULE: config.settings.local
+          DJANGO_SECRET_KEY: test-only
+        run: python manage.py test crawler.tests --verbosity 2
